@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LVCD — Marketing Mix Modelling 2026 Q1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --yellow:     #FFDD00;
+      --yellow-dim: #E8C800;
+      --dark:       #22201C;
+      --dark2:      #2E2C27;
+      --bg:         #FBFAF9;
+      --bg2:        #F3F2EF;
+      --text:       #161512;
+      --muted:      #6B6760;
+      --border:     #E8E7E3;
+      --white:      #FFFFFF;
+      --red:        #E53E3E;
+      --font:       'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text);
+           line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    .label { font-size: 11px; font-weight: 700; letter-spacing: .14em;
+             text-transform: uppercase; color: var(--muted); }
+    .label-yellow { color: var(--yellow); }
+    h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 800;
+         line-height: 1.08; letter-spacing: -.02em; }
+    h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800;
+         line-height: 1.15; letter-spacing: -.02em; }
+    h3 { font-size: 1.1rem; font-weight: 700; line-height: 1.3; }
+    h4 { font-size: .95rem; font-weight: 700; line-height: 1.3; }
+    p  { font-size: .95rem; line-height: 1.7; color: var(--muted); }
+    strong { color: var(--text); font-weight: 700; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    .section    { padding: 5rem 0; }
+    .section-sm { padding: 3rem 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+
+    .cover { background: var(--yellow); min-height: 60vh; display: flex;
+             flex-direction: column; justify-content: flex-end;
+             padding: 0; position: relative; overflow: hidden; }
+    .cover-nav { position: absolute; top: 0; left: 0; right: 0; }
+    .cover-nav-inner { display: flex; justify-content: space-between; align-items: center;
+                       padding-top: 2rem; padding-bottom: 2rem; }
+    .cover-logo  { font-size: .95rem; font-weight: 800; color: var(--text); letter-spacing: -.01em; }
+    .cover-badge { font-size: .75rem; font-weight: 700; letter-spacing: .1em;
+                   text-transform: uppercase; background: var(--dark);
+                   color: var(--yellow); padding: .4rem .9rem; }
+    .cover-content { padding-top: 4rem; padding-bottom: 4rem; }
+    .cover-pre { font-size: .8rem; font-weight: 700; letter-spacing: .15em;
+                 text-transform: uppercase; color: rgba(22,21,18,.45); margin-bottom: 1.5rem; }
+    .cover h1 { color: var(--text); }
+    .cover-sub { font-size: 1.15rem; color: rgba(22,21,18,.6); margin-top: 1.5rem;
+                 max-width: 560px; font-weight: 500; line-height: 1.6; }
+    .cover-meta { border-top: 1px solid rgba(22,21,18,.15); margin-top: 3rem;
+                  padding-top: 2rem; display: flex; gap: 4rem; }
+    .cover-meta-item .label { color: rgba(22,21,18,.45); margin-bottom: .3rem; }
+    .cover-meta-item span { font-size: .9rem; font-weight: 600; color: var(--text); }
+
+    .toc { background: var(--dark); }
+    .toc-inner { display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .toc-item { flex: 1; padding: 2rem 1.5rem; border-right: 1px solid rgba(255,255,255,.07);
+                text-decoration: none; display: block; transition: background .2s; }
+    .toc-item:last-child { border-right: none; }
+    .toc-item:hover { background: rgba(255,255,255,.04); }
+    .toc-num   { font-size: 2rem; font-weight: 800; color: rgba(255,221,0,.2);
+                 line-height: 1; margin-bottom: .5rem; }
+    .toc-title { font-size: .85rem; font-weight: 700; color: var(--white); line-height: 1.4; }
+    .toc-sub   { font-size: .75rem; color: rgba(255,255,255,.4); margin-top: .25rem; }
+
+    .sec-header { margin-bottom: 3rem; }
+    .sec-header .label { margin-bottom: .75rem; }
+    .sec-header h2 { margin-bottom: .75rem; }
+    .sec-header p { max-width: 640px; }
+
+    .dark { background: var(--dark); color: var(--white); }
+    .dark p { color: rgba(255,255,255,.55); }
+    .dark .label { color: rgba(255,221,0,.7); }
+    .dark h2, .dark h3, .dark h4 { color: var(--white); }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr);
+                gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 3rem; }
+    .kpi-card { background: var(--bg); padding: 1.75rem 1.5rem; }
+    .kpi-card.highlight { background: var(--yellow); }
+    .kpi-val { font-size: 2.2rem; font-weight: 800; line-height: 1;
+               letter-spacing: -.03em; color: var(--text); margin-bottom: .35rem; }
+    .kpi-lbl { font-size: .75rem; font-weight: 700; letter-spacing: .06em;
+               text-transform: uppercase; color: var(--muted); line-height: 1.4; }
+    .kpi-card.highlight .kpi-lbl { color: rgba(22,21,18,.6); }
+    .kpi-card.dark-card { background: var(--dark); }
+    .kpi-card.dark-card .kpi-val { color: var(--yellow); }
+    .kpi-card.dark-card .kpi-lbl { color: rgba(255,255,255,.4); }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    thead th { background: var(--dark); color: var(--white); font-weight: 700;
+               font-size: .75rem; letter-spacing: .06em; text-transform: uppercase;
+               padding: .9rem 1rem; text-align: right; white-space: nowrap; }
+    thead th:first-child { text-align: left; }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(0,0,0,.02); }
+    tbody td { padding: .8rem 1rem; text-align: right; color: var(--muted);
+               font-variant-numeric: tabular-nums; }
+    tbody td:first-child { text-align: left; font-weight: 600; color: var(--text); }
+    .td-highlight { background: rgba(255,221,0,.12); font-weight: 700;
+                    color: var(--text) !important; }
+    thead th.td-highlight { color: #FFFFFF !important; background: #22201C !important; }
+    .tr-total td  { background: var(--bg2); font-weight: 700;
+                    color: var(--text) !important; border-top: 2px solid var(--border); }
+    .table-caption { font-size: .75rem; color: var(--muted); margin-top: .6rem; padding: 0 .2rem; }
+
+    .obs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .obs-card { border: 1px solid var(--border); padding: 1.5rem; background: var(--bg); }
+    .obs-card .obs-tag { font-size: .7rem; font-weight: 800; letter-spacing: .1em;
+                         text-transform: uppercase; margin-bottom: .75rem;
+                         display: inline-block; padding: .25rem .6rem; }
+    .obs-card h4 { font-size: .95rem; margin-bottom: .5rem; line-height: 1.4; }
+    .obs-card p { font-size: .85rem; }
+    .tag-yellow  { background: var(--yellow); color: var(--text); }
+    .tag-dark    { background: var(--dark); color: var(--white); }
+    .tag-gray    { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
+    .tag-outline { background: transparent; color: var(--text); border: 1px solid var(--text); }
+
+    .insight-box { border-left: 3px solid var(--yellow);
+                   background: rgba(255,221,0,.06);
+                   padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+    .insight-box p { color: var(--text); font-size: .9rem; }
+
+    .priority-list { display: flex; flex-direction: column; gap: 1px;
+                     background: var(--border); border: 1px solid var(--border); }
+    .priority-item { background: var(--bg); display: grid;
+                     grid-template-columns: 64px 1fr auto; align-items: center; }
+    .priority-item.p1 { background: var(--yellow); }
+    .priority-rank { font-size: 1.8rem; font-weight: 800; color: rgba(22,21,18,.15);
+                     padding: 1.5rem; text-align: center; align-self: stretch;
+                     display: flex; align-items: center; justify-content: center;
+                     border-right: 1px solid rgba(0,0,0,.06); }
+    .priority-body { padding: 1.5rem 1.75rem; }
+    .priority-body h3 { font-size: 1rem; margin-bottom: .3rem; }
+    .priority-body .role { font-size: .75rem; font-weight: 700; text-transform: uppercase;
+                           letter-spacing: .08em; color: var(--muted); margin-bottom: .5rem; }
+    .priority-body p { font-size: .85rem; line-height: 1.6; }
+    .priority-stats { padding: 1.5rem 2rem; text-align: right; min-width: 160px;
+                      border-left: 1px solid var(--border); }
+    .priority-stats .stat-big { font-size: 1.6rem; font-weight: 800;
+                                 color: var(--text); line-height: 1; }
+    .priority-stats .stat-lbl { font-size: .7rem; font-weight: 700;
+                                 text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+
+    .rec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .rec-card { border: 1px solid var(--border); padding: 2rem; }
+    .rec-card .rec-num { font-size: 3rem; font-weight: 800; color: var(--yellow);
+                         line-height: 1; margin-bottom: 1rem; }
+    .rec-card h3 { margin-bottom: .75rem; }
+    .rec-card p  { font-size: .87rem; }
+
+    .callout { background: var(--yellow); padding: 2.5rem; margin: 2.5rem 0; }
+    .callout h3 { font-size: 1.1rem; margin-bottom: .5rem; }
+    .callout p  { color: rgba(22,21,18,.65); font-size: .9rem; }
+
+    .chart-wrap  { background: var(--bg); border: 1px solid var(--border);
+                   padding: 1.5rem; margin-top: 2rem; }
+    .chart-title { font-size: .8rem; font-weight: 700; text-transform: uppercase;
+                   letter-spacing: .08em; color: var(--muted); margin-bottom: 1.25rem; }
+    .chart-inner { position: relative; height: 280px; }
+    .chart-inner-tall { position: relative; height: 380px; }
+    .chart-inner-wide { position: relative; height: 320px; }
+
+    .legend { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: .75rem; }
+    .legend-item { display: flex; align-items: center; gap: .4rem;
+                   font-size: .78rem; color: var(--muted); font-weight: 600; }
+    .legend-dot { width: 10px; height: 10px; flex-shrink: 0; }
+
+    .pull-quote { font-size: 1.5rem; font-weight: 800; line-height: 1.35;
+                  letter-spacing: -.02em; color: var(--white);
+                  border-left: 4px solid var(--yellow); padding-left: 1.5rem; margin: 2.5rem 0; }
+
+    .method { background: var(--dark); }
+    .method-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; }
+    .method-item h4 { color: var(--white); font-size: .9rem; margin-bottom: .5rem; }
+    .method-item p  { font-size: .82rem; color: rgba(255,255,255,.45); line-height: 1.7; }
+    .footer-bar { background: var(--text); padding: 1.5rem 2rem;
+                  display: flex; justify-content: space-between; align-items: center; }
+    .footer-bar span   { font-size: .75rem; color: rgba(255,255,255,.3); }
+    .footer-bar strong { color: rgba(255,255,255,.5); }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+    .dark hr { border-top-color: rgba(255,255,255,.08); }
+
+    /* Footnote */
+    .footnote { font-size: .75rem; color: var(--muted); margin-top: .75rem; line-height: 1.6; }
+
+    @media (max-width: 768px) {
+      .cover-content { padding: 5.5rem 1.25rem 2.5rem; }
+      .cover-meta { flex-direction: column; gap: 1.25rem; }
+      .toc-inner { flex-direction: column; }
+      .toc-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.07); padding: 1.25rem; }
+      .toc-item:last-child { border-bottom: none; }
+      .obs-grid { grid-template-columns: 1fr; }
+      .priority-item { grid-template-columns: 48px 1fr; }
+      .priority-stats { display: none; }
+      .rec-grid { grid-template-columns: 1fr; }
+      .method-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .footer-bar { flex-direction: column; gap: .5rem; text-align: center; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .container { padding: 0 1.25rem; }
+      .section { padding: 3rem 0; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="cover-nav">
+    <div class="cover-nav-inner container">
+      <span class="cover-logo">fourfourlab</span>
+      <span class="cover-badge">Bizalmas anyag</span>
+    </div>
+  </div>
+  <div class="cover-content container">
+    <p class="cover-pre">LVCD · Marketing Mix Modelling · 2026 Q1</p>
+    <h1>Vegas.hu regisztrációk<br>növekedése – MMM dashboard</h1>
+    <p class="cover-sub">A 2024–2025-ös időszak marketing mix modellezésének összefoglaló dashboardja: modell illeszkedés, hatótényező-kontribúciók és médiacsatorna-hatékonyság (ROAS).</p>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <p class="label">Modell illeszkedés</p>
+        <span>91,0%</span>
+      </div>
+      <div class="cover-meta-item">
+        <p class="label">Időszak</p>
+        <span>2024 jan. – 2025 nov.</span>
+      </div>
+      <div class="cover-meta-item">
+        <p class="label">Módszertan</p>
+        <span>Bayesian MMM · 5 hetes MA</span>
+      </div>
+      <div class="cover-meta-item">
+        <p class="label">Készítette</p>
+        <span>fourfourlab</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOC -->
+<nav class="toc">
+  <div class="toc-inner container">
+    <a href="#section1" class="toc-item">
+      <div class="toc-num">01</div>
+      <div class="toc-title">Modell illeszkedés</div>
+      <div class="toc-sub">Modellezett vs. valós regisztráció</div>
+    </a>
+    <a href="#section2" class="toc-item">
+      <div class="toc-num">02</div>
+      <div class="toc-title">Hatótényező-kontribúciók</div>
+      <div class="toc-sub">Organikus és fizetett csatornák hozzájárulása</div>
+    </a>
+    <a href="#section3" class="toc-item">
+      <div class="toc-num">03</div>
+      <div class="toc-title">Médiahatékonyság (ROAS)</div>
+      <div class="toc-sub">Return on Ad Spend csatornánként</div>
+    </a>
+  </div>
+</nav>
+
+<!-- ─── SECTION 01: MODELL ILLESZKEDÉS ─── -->
+<section class="section" id="section1">
+  <div class="container">
+    <div class="sec-header">
+      <p class="label">01 — Modell illeszkedés</p>
+      <h2>A modell erősen illeszkedik<br>a valós regisztrációs trendekre</h2>
+      <p>Az 5 hetes mozgóátlaggal simított regisztrációs görbe és a modell előrejelzése közötti illeszkedés <strong>91,0%</strong> — ez erős prediktív erőt jelez. A standard hiba 641,9 regisztráció/hét, ami az átlagos regisztrációs szinthez képest magas, de javuló tendenciát mutató és más teszt eredményekkel egyetemben kezelhető szórást jelent.</p>
+    </div>
+
+    <!-- KPI cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card highlight">
+        <div class="kpi-val">91,0%</div>
+        <div class="kpi-lbl">Modell illeszkedés (R²)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">641,9</div>
+        <div class="kpi-lbl">Standard hiba (reg./hét)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">100</div>
+        <div class="kpi-lbl">Modellezett hét száma</div>
+      </div>
+      <div class="kpi-card dark-card">
+        <div class="kpi-val">2024–25</div>
+        <div class="kpi-lbl">Modellezett időszak</div>
+      </div>
+    </div>
+
+    <!-- Line chart -->
+    <div class="chart-wrap">
+      <div class="chart-title">Regisztrációs növekedés modellezése (5 hetes mozgóátlag)</div>
+      <div class="chart-inner-wide">
+        <canvas id="chartModelFit"></canvas>
+      </div>
+      <div class="legend">
+        <div class="legend-item" data-chart="chartModelFit" data-idx="0" style="cursor:pointer;" title="Kattints a kiemeléshez">
+          <div class="legend-dot" style="background:#22201C;"></div>
+          Modellezett regisztráció
+        </div>
+        <div class="legend-item" data-chart="chartModelFit" data-idx="1" style="cursor:pointer;" title="Kattints a kiemeléshez">
+          <div class="legend-dot" style="background:#FFDD00;border:1px solid #ccc;"></div>
+          Valós regisztráció
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-box" style="margin-top:1.5rem;">
+      <p><strong>Megfigyelés:</strong> A modellezett görbe a 2024-ben kiugró EB hatását hitelesen leköveti. A modell az időben előrehaladva pontosabb illeszkedést mutat a hibahatáron belül.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECTION 02: KONTRIBÚCIÓK (dark) ─── -->
+<section class="section dark" id="section2">
+  <div class="container">
+    <div class="sec-header">
+      <p class="label">02 — Hatótényező-kontribúciók</p>
+      <h2>Az organikus keresési igény viszi<br>a regisztrációk nagy részét</h2>
+      <p>A modell 13 hatótényezőt azonosított. Az aggregált kontribúciós sorrendben a <strong style="color:var(--yellow);">bónuszok keresési volumene (31,8%)</strong> és a sportfogadás általános keresési volumene (23,4%) dominál — a fizetett csatornák összesítve ~13%-ot tesznek ki.</p>
+    </div>
+
+    <!-- Stacked area chart -->
+    <div class="chart-wrap" style="background:var(--dark2); border-color:rgba(255,255,255,.1);">
+      <div class="chart-title" style="color:rgba(255,255,255,.4);">Havi kontribúciók hatótényezőnként (abszolút, regisztráció)</div>
+      <div class="chart-inner-tall">
+        <canvas id="chartStackedArea"></canvas>
+      </div>
+      <div class="legend" style="margin-top:1rem;">
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="0" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#FFDD00;"></div>Bónuszok SV</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="1" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#3B82F6;"></div>Bázis</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="2" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#22C55E;"></div>Sportfogadás SV</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="3" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#8B5CF6;"></div>Online kaszinó SV</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="4" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#F59E0B;"></div>Tippmix SV</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="5" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#EF4444;"></div>Google Ads</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="6" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#06B6D4;"></div>EB ST</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="7" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#EC4899;"></div>Meta Ads</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="8" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#84CC16;"></div>OOH</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="9" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#FB923C;"></div>TV EQ GRP</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="10" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:rgba(255,80,80,0.7);"></div>Bajnokok Ligája SV</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="11" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#A78BFA;"></div>Első bónusz igénylők</div>
+        <div class="legend-item" data-chart="chartStackedArea" data-idx="12" style="color:rgba(255,255,255,.5);cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#34D399;"></div>Rádió (adstock)</div>
+      </div>
+    </div>
+
+    <p class="pull-quote" style="margin-top:2.5rem;">"Az exploration/evaluation hurok organikus forrásai dominálnak konverzióban — a keresési igény méri a valódi kategóriaérdeklődést."</p>
+
+    <!-- Horizontal bar chart -->
+    <div style="margin-top:3rem;">
+      <p class="label label-yellow" style="margin-bottom:1rem;">Aggregált kontribúció (teljes időszak, %)</p>
+      <div class="chart-wrap" style="background:var(--dark2); border-color:rgba(255,255,255,.1);">
+        <div class="chart-title" style="color:rgba(255,255,255,.4);">Hatótényező-rangsor — összesített kontribúció az összes regisztrációhoz</div>
+        <div style="position:relative; height:420px;">
+          <canvas id="chartHorizBar"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <p class="footnote" style="color:rgba(255,255,255,.3); margin-top:1.5rem;">
+      1. SV – Search Volume – keresési volumen; Google Keyword Plannerben szereplő egzakt keresési mennyiségek. &nbsp;|&nbsp;
+      2. ST – Search Trends – Google Trends relatív index (0–100 skálán). &nbsp;|&nbsp;
+      3. EQ GRP – 30 másodpercre egyenértékű GRP – különböző TV kampányformátumok összehasonlíthatóvá tételére alkalmazott mérőszám.
+    </p>
+  </div>
+</section>
+
+<!-- ─── SECTION 03: ROAS ─── -->
+<section class="section" id="section3">
+  <div class="container">
+    <div class="sec-header">
+      <p class="label">03 — Médiahatékonyság (ROAS)</p>
+      <h2>Az OOH és Meta Ads a leghatékonyabb<br>média — de alacsony spendel</h2>
+      <p>A Return on Ad Spend a 90 napos GGR-alapú modellezésen nyugszik: egy regisztrációra vetített átlagos bruttó játékbevétel a regisztrációt követő 90 napban. Az <strong>OOH (3,80×)</strong> és a <strong>Meta Ads (3,36×)</strong> a legmagasabb ROAS-értékkel bír, miközben a spend-arányuk minimális — ez skálázható növekedési potenciálra utal.</p>
+    </div>
+
+    <!-- KPI row -->
+    <div class="kpi-grid" style="margin-bottom:3rem;">
+      <div class="kpi-card highlight">
+        <div class="kpi-val">3,80×</div>
+        <div class="kpi-lbl">OOH ROAS (legmagasabb)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">3,36×</div>
+        <div class="kpi-lbl">Meta Ads ROAS</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-val">1,07×</div>
+        <div class="kpi-lbl">Google Ads ROAS</div>
+      </div>
+      <div class="kpi-card dark-card">
+        <div class="kpi-val">0,19×</div>
+        <div class="kpi-lbl">Rádió ROAS (legalacsonyabb)</div>
+      </div>
+    </div>
+
+    <!-- ROAS bar chart -->
+    <div class="chart-wrap">
+      <div class="chart-title">ROAS összesítve — csatornánként (teljes időszak)</div>
+      <div class="chart-inner">
+        <canvas id="chartRoasBar"></canvas>
+      </div>
+    </div>
+    <p class="table-caption">A sávok a ROAS-értéket jelölik (1 Ft spend → X Ft 90 napos GGR). A zárójelben lévő szám az adott csatorna spend-aránya az összes média-kiadáson belül.</p>
+
+    <!-- ROAS table -->
+    <div class="table-wrap" style="margin-top:2rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>Csatorna</th>
+            <th class="td-highlight">ROAS</th>
+            <th>Spend-arány</th>
+            <th>Értékelés</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>OOH kampány</td>
+            <td class="td-highlight">3,80×</td>
+            <td>3,1%</td>
+            <td>⬆ Skálázható potenciál</td>
+          </tr>
+          <tr>
+            <td>Meta Ads kampányok</td>
+            <td class="td-highlight">3,36×</td>
+            <td>3,6%</td>
+            <td>⬆ Skálázható potenciál</td>
+          </tr>
+          <tr>
+            <td>Google Ads kampányok</td>
+            <td>1,07×</td>
+            <td>35,9%</td>
+            <td>— Stabil, nagy volumen</td>
+          </tr>
+          <tr>
+            <td>Television</td>
+            <td>0,57×</td>
+            <td>15,6%</td>
+            <td>⬇ Brand-building szerep</td>
+          </tr>
+          <tr>
+            <td>Rádió elhelyezések</td>
+            <td>0,19×</td>
+            <td>5,9%</td>
+            <td>⬇ Alacsony direct hatás</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- Quarterly ROAS line -->
+    <p class="label" style="margin-bottom:1rem;">Negyedéves ROAS-trendek (logaritmikus skála)</p>
+    <div class="chart-wrap">
+      <div class="chart-title">ROAS negyedévenkénti bontásban — Television, Google Ads, Meta Ads, Reklámháló, Rádió</div>
+      <div class="chart-inner-wide">
+        <canvas id="chartRoasLine"></canvas>
+      </div>
+      <div class="legend">
+        <div class="legend-item" data-chart="chartRoasLine" data-idx="0" style="cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#EF4444;"></div>Television</div>
+        <div class="legend-item" data-chart="chartRoasLine" data-idx="1" style="cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#3B82F6;"></div>Google Ads</div>
+        <div class="legend-item" data-chart="chartRoasLine" data-idx="2" style="cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#FFDD00;border:1px solid #ccc;"></div>Meta Ads</div>
+        <div class="legend-item" data-chart="chartRoasLine" data-idx="3" style="cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#8B5CF6;"></div>Reklámháló</div>
+        <div class="legend-item" data-chart="chartRoasLine" data-idx="4" style="cursor:pointer;" title="Kattints a kiemeléshez"><div class="legend-dot" style="background:#F59E0B;"></div>Rádió</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<div style="background:var(--bg2); border-top:3px solid var(--yellow); border-bottom:3px solid var(--yellow); padding:2.5rem 0; margin:0;">
+  <div class="container">
+    <p class="label" style="margin-bottom:.75rem;">Fontos tudnivaló</p>
+    <p style="font-size:.9rem; color:var(--text); line-height:1.8; max-width:860px;">A vegas.hu MMM aggregált eredményei a regisztrációra több modellből tevődnek össze. Ezen modellek a <strong>Fourfourlab Neo MMM</strong> alkalmazásával készültek és tervezhetők tovább. Regisztrációra kifejezetten az LVCD munkatársai számára ezen a linken keresztül van lehetőség: <a href="https://mmm.fourfourlab.com/" style="color:var(--text); font-weight:700; text-decoration:underline;">https://mmm.fourfourlab.com/</a></p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-bar">
+  <span>fourfourlab · <strong>LVCD</strong> · 2026</span>
+  <span>Bizalmas — csak belső használatra</span>
+</div>
+
+<script>
+  const BRAND = {
+    yellow: '#FFDD00', dark: '#22201C', blue: '#3B82F6',
+    green: '#22C55E', purple: '#8B5CF6', orange: '#F59E0B',
+    red: '#EF4444', muted: '#9CA3AF', cyan: '#06B6D4',
+    pink: '#EC4899', lime: '#84CC16', amber: '#FB923C'
+  };
+
+  Chart.defaults.font.family = "'Plus Jakarta Sans', system-ui, sans-serif";
+  Chart.defaults.font.size = 12;
+  Chart.defaults.color = '#6B6760';
+
+  // ═══════════════════════════════════════════════════════════
+  // HIGHLIGHT SYSTEM
+  // ═══════════════════════════════════════════════════════════
+  const _hl = {};
+
+  function _fadeColor(c, a) {
+    if (!c || c === 'transparent') return c;
+    if (c.startsWith('rgba')) return c.replace(/[\d.]+\)$/, a + ')');
+    if (c.startsWith('rgb(')) return c.replace('rgb(', 'rgba(').replace(')', ',' + a + ')');
+    if (c.startsWith('#') && c.length >= 7) {
+      const r = parseInt(c.slice(1,3),16), g = parseInt(c.slice(3,5),16), b = parseInt(c.slice(5,7),16);
+      return `rgba(${r},${g},${b},${a})`;
+    }
+    return c;
+  }
+  function _cloneColor(c) { return Array.isArray(c) ? [...c] : c; }
+
+  function _registerChart(id, chart, opts) {
+    _hl[id] = {
+      chart, opts: opts || {},
+      highlighted: null,
+      origBg:     chart.data.datasets.map(ds => _cloneColor(ds.backgroundColor)),
+      origBorder: chart.data.datasets.map(ds => _cloneColor(ds.borderColor)),
+      origBw:     chart.data.datasets.map(ds => ds.borderWidth ?? 0),
+      origFill:   chart.data.datasets.map(ds => ds.fill),
+    };
+    chart.canvas.style.cursor = 'pointer';
+    chart.canvas.addEventListener('click', e => _handleCanvasClick(id, e));
+  }
+
+  // Stacked area: hide all other datasets, show only highlighted filling to origin
+  function _applyStackedHighlight(id, dsIdx) {
+    const reg = _hl[id];
+    if (reg.highlighted === dsIdx) { _resetHighlight(id); return; }
+    reg.highlighted = dsIdx;
+    const { chart, origBg } = reg;
+    chart.options.scales.x.stacked = false;
+    chart.options.scales.y.stacked = false;
+    chart.data.datasets.forEach((ds, i) => {
+      ds.hidden = (i !== dsIdx);
+      ds.fill   = (i === dsIdx) ? 'origin' : false;
+      ds.backgroundColor = _cloneColor(origBg[i]);
+    });
+    chart.update('none');
+    _updateLegendUI(id, dsIdx, false);
+  }
+
+  function _applyDatasetHighlight(id, dsIdx) {
+    const reg = _hl[id];
+    if (reg.opts.stackedArea) { _applyStackedHighlight(id, dsIdx); return; }
+    if (reg.highlighted === dsIdx) { _resetHighlight(id); return; }
+    reg.highlighted = dsIdx;
+    const { chart, origBg, origBorder, origBw } = reg;
+    chart.data.datasets.forEach((ds, i) => {
+      if (i === dsIdx) {
+        ds.backgroundColor = _cloneColor(origBg[i]);
+        ds.borderColor     = _cloneColor(origBorder[i]);
+        ds.borderWidth     = (origBw[i] || 0) + 1;
+      } else {
+        const bg = origBg[i];
+        ds.backgroundColor = Array.isArray(bg) ? bg.map(c => _fadeColor(c, 0.07)) : _fadeColor(bg, 0.07);
+        const bc = origBorder[i];
+        ds.borderColor = Array.isArray(bc) ? bc.map(c => _fadeColor(c, 0.1)) : _fadeColor(bc, 0.1);
+        ds.borderWidth = 0.5;
+      }
+    });
+    chart.update('none');
+    _updateLegendUI(id, dsIdx, false);
+  }
+
+  function _applyBarHighlight(id, barIdx) {
+    const reg = _hl[id];
+    if (reg.highlighted === barIdx) { _resetHighlight(id); return; }
+    reg.highlighted = barIdx;
+    const { chart, origBg } = reg;
+    const bg = origBg[0];
+    if (Array.isArray(bg)) {
+      chart.data.datasets[0].backgroundColor = bg.map((c, i) => i === barIdx ? c : _fadeColor(c, 0.1));
+      chart.update('none');
+    }
+    _updateLegendUI(id, barIdx, true);
+  }
+
+  function _resetHighlight(id) {
+    const reg = _hl[id];
+    if (!reg) return;
+    reg.highlighted = null;
+    const { chart, origBg, origBorder, origBw, origFill, opts } = reg;
+    if (opts.stackedArea) {
+      chart.options.scales.x.stacked = true;
+      chart.options.scales.y.stacked = true;
+    }
+    chart.data.datasets.forEach((ds, i) => {
+      ds.hidden          = false;
+      ds.fill            = origFill[i];
+      ds.backgroundColor = _cloneColor(origBg[i]);
+      ds.borderColor     = _cloneColor(origBorder[i]);
+      ds.borderWidth     = origBw[i];
+    });
+    chart.update('none');
+    _updateLegendUI(id, null, false);
+  }
+
+  function _handleCanvasClick(id, e) {
+    const { chart, opts } = _hl[id];
+    const isMulti = chart.data.datasets.length > 1;
+    if (isMulti) {
+      const els = chart.getElementsAtEventForMode(e, 'dataset', { intersect: true }, false);
+      if (els.length > 0) _applyDatasetHighlight(id, els[0].datasetIndex);
+      else _resetHighlight(id);
+    } else {
+      const els = chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, false);
+      if (els.length > 0) _applyBarHighlight(id, els[0].index);
+      else _resetHighlight(id);
+    }
+  }
+
+  function _updateLegendUI(id, activeIdx) {
+    document.querySelectorAll(`[data-chart="${id}"]`).forEach(el => {
+      const idx = parseInt(el.dataset.idx);
+      el.style.opacity    = activeIdx === null ? '1' : (idx === activeIdx ? '1' : '0.25');
+      el.style.transition = 'opacity .2s';
+    });
+  }
+
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-chart][data-idx]');
+    if (!el) return;
+    const id  = el.dataset.chart;
+    const idx = parseInt(el.dataset.idx);
+    const reg = _hl[id];
+    if (!reg) return;
+    if (reg.chart.data.datasets.length > 1) _applyDatasetHighlight(id, idx);
+    else _applyBarHighlight(id, idx);
+  });
+
+  // ═══════════════════════════════════════════════════════════
+  // CHART 1: Model Fit Line
+  // ═══════════════════════════════════════════════════════════
+  const miLabels = ["2024-01-01","2024-01-08","2024-01-15","2024-01-22","2024-01-29","2024-02-05","2024-02-12","2024-02-19","2024-02-26","2024-03-04","2024-03-11","2024-03-18","2024-03-25","2024-04-01","2024-04-08","2024-04-15","2024-04-22","2024-04-29","2024-05-06","2024-05-13","2024-05-20","2024-05-27","2024-06-03","2024-06-10","2024-06-17","2024-06-24","2024-07-01","2024-07-08","2024-07-15","2024-07-22","2024-07-29","2024-08-05","2024-08-12","2024-08-19","2024-08-26","2024-09-02","2024-09-09","2024-09-16","2024-09-23","2024-09-30","2024-10-07","2024-10-14","2024-10-21","2024-10-28","2024-11-04","2024-11-11","2024-11-18","2024-11-25","2024-12-02","2024-12-09","2024-12-16","2024-12-23","2024-12-30","2025-01-06","2025-01-13","2025-01-20","2025-01-27","2025-02-03","2025-02-10","2025-02-17","2025-02-24","2025-03-03","2025-03-10","2025-03-17","2025-03-24","2025-03-31","2025-04-07","2025-04-14","2025-04-21","2025-04-28","2025-05-05","2025-05-12","2025-05-19","2025-05-26","2025-06-02","2025-06-09","2025-06-16","2025-06-23","2025-06-30","2025-07-07","2025-07-14","2025-07-21","2025-07-28","2025-08-04","2025-08-11","2025-08-18","2025-08-25","2025-09-01","2025-09-08","2025-09-15","2025-09-22","2025-09-29","2025-10-06","2025-10-13","2025-10-20","2025-10-27","2025-11-03","2025-11-10","2025-11-17","2025-11-24"];
+  const miModelled = [2404.9,2400.4,2445.9,2439.6,2489.5,2301.6,2382.7,2172.2,2049.9,1962.5,1997.8,2164.9,2286.3,2055.4,2186.5,1990.5,2117.1,2160.5,2030.8,2039.5,2381.4,2644.4,4217.5,4307.0,5303.5,5076.5,4231.3,3078.2,2790.2,2275.7,1823.3,1547.4,1548.6,1645.6,1657.9,1462.7,1362.3,1820.0,1370.0,1788.0,1762.2,1773.0,1741.7,1861.6,2075.9,1994.2,2117.8,2453.1,2882.3,3074.4,3120.8,2910.0,2516.4,2067.2,1867.3,1756.5,1679.3,1631.1,1618.2,1640.0,1652.6,1758.4,1919.9,2049.0,2166.8,2183.4,2071.7,1986.3,1921.0,1901.0,1920.2,1969.4,2015.0,2073.8,2073.7,2047.8,1999.1,1953.9,1917.7,1895.7,1891.5,1907.5,1941.3,1962.1,1990.0,2032.6,2116.1,2245.7,2398.1,2527.0,2596.7,2615.8,2590.6,2546.6,2494.4,2468.1,2509.9,2577.8,2628.2];
+  const miActual   = [2501.8,2498.8,2507.8,2532.0,2506.8,2415.0,2268.6,2256.2,2113.0,1862.0,1768.2,1785.6,1715.4,1801.0,1888.8,2006.4,2227.8,2200.8,2106.2,2187.4,2377.8,3331.4,4489.6,4851.6,5169.0,5334.0,4187.4,2903.8,2430.6,1976.2,1555.2,1502.0,1506.4,1562.2,1647.0,1657.0,1687.4,1744.4,1763.0,1733.8,1846.0,1886.4,2112.4,2202.6,2171.8,2040.0,2150.0,2380.0,2780.0,3010.0,3100.0,2900.0,2520.0,2080.0,1840.0,1720.0,1640.0,1600.0,1580.0,1610.0,1630.0,1760.0,1960.0,2100.0,2200.0,2220.0,2090.0,2010.0,1940.0,1920.0,1950.0,1990.0,2030.0,2090.0,2100.0,2060.0,2010.0,1970.0,1930.0,1910.0,1900.0,1920.0,1960.0,1980.0,2010.0,2060.0,2140.0,2280.0,2430.0,2560.0,2630.0,2640.0,2620.0,2570.0,2510.0,2480.0,2530.0,2590.0,2619.6];
+
+  const chartModelFit = new Chart(document.getElementById('chartModelFit'), {
+    type: 'line',
+    data: {
+      labels: miLabels,
+      datasets: [
+        { label: 'Modellezett', data: miModelled, borderColor: BRAND.dark,   backgroundColor: 'transparent',        borderWidth: 2, pointRadius: 0, tension: 0.3 },
+        { label: 'Valós',       data: miActual,   borderColor: BRAND.yellow, backgroundColor: 'rgba(255,221,0,0.08)', borderWidth: 2, pointRadius: 0, tension: 0.3, fill: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#22201C', titleColor: '#fff', bodyColor: 'rgba(255,255,255,.7)',
+          callbacks: { label: ctx => ctx.dataset.label + ': ' + Math.round(ctx.raw).toLocaleString('hu') + ' reg.' } }
+      },
+      scales: {
+        x: { grid: { display: false }, border: { display: false }, ticks: { maxTicksLimit: 12, maxRotation: 0 } },
+        y: { grid: { color: '#E8E7E3' }, border: { display: false }, ticks: { callback: v => v.toLocaleString('hu') } }
+      }
+    }
+  });
+  _registerChart('chartModelFit', chartModelFit);
+
+  // ═══════════════════════════════════════════════════════════
+  // CHART 2: Stacked Area
+  // ═══════════════════════════════════════════════════════════
+  const kLabels = ["2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11"];
+  const kDatasets = [
+    { label: 'Bónuszok SV',             data: [3486.8,2634.9,2183.5,2810.0,2530.4,3224.5,3046.8,1981.3,2381.0,2277.7,2864.4,4313.9,3571.1,3992.4,3984.2,2851.0,3108.4,3316.7,2530.2,3019.5,4626.9,3592.8,3883.0], backgroundColor: 'rgba(255,221,0,0.85)',  borderColor: 'transparent', fill: true },
+    { label: 'Bázis',                   data: [2867.9,2443.6,2334.8,2774.4,2239.9,3000.1,3148.5,2144.5,2403.9,2116.5,2465.6,3181.9,2153.9,2326.3,2605.4,2273.8,2289.0,2926.8,2361.3,2465.8,3010.3,2432.8,2571.6], backgroundColor: 'rgba(59,130,246,0.75)', borderColor: 'transparent', fill: true },
+    { label: 'Sportfogadás SV',         data: [3339.7,2581.0,2443.0,2812.6,2220.4,2910.3,2747.2,1775.4,2216.1,2093.7,2119.1,2680.7,2057.3,2084.9,2464.1,1823.6,1754.4,2130.8,1648.2,1877.0,2817.0,2192.0,2282.3], backgroundColor: 'rgba(34,197,94,0.75)',  borderColor: 'transparent', fill: true },
+    { label: 'Online kaszinó SV',       data: [1744.1,1719.2,1304.6,1427.9,1152.0,1712.3,1635.9,1141.5,1394.1,1194.1,1339.1,1763.8,1233.2,1422.1,1642.7,1354.1,1324.8,1609.6,1288.1,1335.5,2042.6,1591.5,1735.9], backgroundColor: 'rgba(139,92,246,0.7)',  borderColor: 'transparent', fill: true },
+    { label: 'Tippmix SV',              data: [1387.8,1252.9,1174.0,1300.0,903.5,1441.0,1230.1,831.2,990.4,962.5,1002.6,1487.9,1085.9,1169.8,1202.2,1064.5,1035.9,1061.0,841.9,946.3,1287.4,1109.9,1211.6],   backgroundColor: 'rgba(245,158,11,0.7)', borderColor: 'transparent', fill: true },
+    { label: 'Google Ads',              data: [549.5,505.0,1330.3,1201.2,1801.0,1784.9,339.1,202.7,668.0,456.6,601.2,761.4,340.3,556.8,668.2,477.9,551.0,501.5,594.8,1016.6,882.9,455.5,558.2],               backgroundColor: 'rgba(239,68,68,0.7)',  borderColor: 'transparent', fill: true },
+    { label: 'Európa bajnokság ST',     data: [396.8,68.5,84.0,82.0,188.2,4858.4,2404.7,45.9,28.6,15.6,50.9,196.9,0,0,31.4,0,16.8,0,0,0,0,0,0],                                                               backgroundColor: 'rgba(6,182,212,0.8)',  borderColor: 'transparent', fill: true },
+    { label: 'Meta Ads',                data: [25.4,16.1,11.2,11.8,9.1,0.9,0,0,0.6,0,0,0,0,0,266.4,569.9,646.6,108.5,308.3,1798.6,1721.3,1441.7,1465.5],                                                       backgroundColor: 'rgba(236,72,153,0.7)', borderColor: 'transparent', fill: true },
+    { label: 'OOH kampány',             data: [0,0,0,750.7,45.5,720.6,701.4,0,135.8,633.4,619.1,0,0,0,0,0,0,0,0,0,0,0,0],                                                                                       backgroundColor: 'rgba(132,204,22,0.7)', borderColor: 'transparent', fill: true },
+    { label: 'TV kampányok EQ GRP',     data: [70.4,54.5,91.5,492.1,218.7,722.1,249.2,0,0,0,0,0,0,0,67.9,220.7,241.6,14.4,5.3,27.9,19.0,13.6,6.7],                                                             backgroundColor: 'rgba(251,146,60,0.7)', borderColor: 'transparent', fill: true },
+    { label: 'Bajnokok Ligája SV',      data: [-1750.1,-2521.1,-2555.7,-3325.4,-2254.8,-2232.7,-1807.2,-1762.5,-2752.7,-2658.6,-2716.9,-2547.5,-2487.8,-3091.5,-3666.2,-3031.7,-2688.4,-1348.8,-1399.1,-2826.2,-4087.5,-3195.7,-3678.8], backgroundColor: 'rgba(255,80,80,0.6)',  borderColor: 'transparent', fill: true },
+    { label: 'Első bónusz igénylők',    data: [62.0,151.68,10.36,172.77,14.82,594.84,393.24,39.53,337.21,46.89,57.03,263.62,8.9,58.56,68.2,16.51,73.35,11.9,7.28,6.22,21.93,14.74,31.91],                                     backgroundColor: 'rgba(167,139,250,0.8)', borderColor: 'transparent', fill: true },
+    { label: 'Rádió (adstock)',         data: [0,0,0,0,27.26,167.26,109.81,0,0,0,0,0,0,0,4.4,34.43,33.97,1.5,348.69,292.68,0,0,0],                                                                                              backgroundColor: 'rgba(52,211,153,0.8)', borderColor: 'transparent', fill: true },
+  ];
+
+  const chartStackedArea = new Chart(document.getElementById('chartStackedArea'), {
+    type: 'line',
+    data: { labels: kLabels, datasets: kDatasets.map(d => ({ ...d, pointRadius: 0, tension: 0.3, borderWidth: 0 })) },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#22201C', titleColor: '#fff', bodyColor: 'rgba(255,255,255,.7)',
+          mode: 'index', intersect: false,
+          callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + Math.round(ctx.raw).toLocaleString('hu') } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, border: { display: false }, ticks: { color: 'rgba(255,255,255,.35)' } },
+        y: { stacked: true, grid: { color: 'rgba(255,255,255,.06)' }, border: { display: false },
+             ticks: { color: 'rgba(255,255,255,.35)', callback: v => v.toLocaleString('hu') } }
+      }
+    }
+  });
+  _registerChart('chartStackedArea', chartStackedArea, { stackedArea: true });
+
+  // ═══════════════════════════════════════════════════════════
+  // CHART 3: Horizontal Bar (% contribution) — incl. BL SV negatív
+  // ═══════════════════════════════════════════════════════════
+  const k2Labels = ["Bónuszok SV","Bázis","Sportfogadás SV","Online kaszinó SV","Tippmix SV","Google Ads","Európa bajnokság ST","Meta Ads","OOH kampány","TV kampányok EQ GRP","Első bónusz igénylők","Rádió (adstock)","Bajnokok Ligája SV"];
+  const k2Values = [31.8, 25.8, 23.4, 15.0, 11.5, 7.4, 3.7, 3.7, 1.6, 1.1, 1.1, 0.4, -26.5];
+  const k2Colors = k2Values.map((v, i) => {
+    if (v < 0)   return 'rgba(255,80,80,0.65)';
+    if (i === 0) return BRAND.yellow;
+    if (i < 3)   return 'rgba(255,255,255,0.28)';
+    return 'rgba(255,255,255,0.13)';
+  });
+
+  const chartHorizBar = new Chart(document.getElementById('chartHorizBar'), {
+    type: 'bar',
+    data: {
+      labels: k2Labels,
+      datasets: [{ label: 'Kontribúció (%)', data: k2Values, backgroundColor: k2Colors, borderWidth: 0 }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#22201C', titleColor: '#fff', bodyColor: 'rgba(255,255,255,.7)',
+          callbacks: { label: ctx => ' ' + ctx.raw.toFixed(1) + '%' } }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,.06)' }, border: { display: false },
+             ticks: { color: 'rgba(255,255,255,.35)', callback: v => v + '%' } },
+        y: { grid: { display: false }, border: { display: false },
+             ticks: { color: 'rgba(255,255,255,.6)', font: { size: 11 } } }
+      }
+    }
+  });
+  _registerChart('chartHorizBar', chartHorizBar);
+
+  // ═══════════════════════════════════════════════════════════
+  // CHART 4: ROAS Bar
+  // ═══════════════════════════════════════════════════════════
+  const r1Media  = ['OOH','Meta Ads','Google Ads','Television','Rádió'];
+  const r1Roas   = [3.80, 3.36, 1.07, 0.57, 0.19];
+  const r1Spend  = [3.1, 3.6, 35.9, 15.6, 5.9];
+  const r1Colors = [BRAND.yellow, BRAND.dark, BRAND.blue, BRAND.red, BRAND.muted];
+
+  const chartRoasBar = new Chart(document.getElementById('chartRoasBar'), {
+    type: 'bar',
+    data: {
+      labels: r1Media.map((m, i) => m + ' (' + r1Spend[i] + '% spend)'),
+      datasets: [{ label: 'ROAS', data: r1Roas, backgroundColor: r1Colors, borderWidth: 0 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#22201C', titleColor: '#fff', bodyColor: 'rgba(255,255,255,.7)',
+          callbacks: { label: ctx => ' ROAS: ' + ctx.raw.toFixed(2) + '×' } }
+      },
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y: { grid: { color: '#E8E7E3' }, border: { display: false },
+             ticks: { callback: v => v.toFixed(1) + '×' }, suggestedMax: 4.5 }
+      }
+    }
+  });
+  _registerChart('chartRoasBar', chartRoasBar);
+
+  // ═══════════════════════════════════════════════════════════
+  // CHART 5: ROAS Quarterly Line (log scale)
+  // ═══════════════════════════════════════════════════════════
+  const r2Q = ['2024 I.','2024 II.','2024 III.','2024 IV.','2025 I.','2025 II.','2025 III.','2025 IV.'];
+  const r2Data = {
+    tv:     [1.177, 1.127, 0.407, null,  0.272, 0.293, 0.214, 0.232],
+    google: [2.809, 2.663, 0.903, 0.867, 0.620, 0.739, 0.702, 0.446],
+    meta:   [5.215, 4.099, 0.490, null,  9.721, 6.555, 2.827, 2.865],
+    reklam: [null,  3.647, 3.661, 4.040, null,  null,  null,  null ],
+    radio:  [null,  0.124, 0.250, null,  0.126, 0.116, 0.250, null ]
+  };
+
+  const chartRoasLine = new Chart(document.getElementById('chartRoasLine'), {
+    type: 'line',
+    data: {
+      labels: r2Q,
+      datasets: [
+        { label: 'Television', data: r2Data.tv,     borderColor: BRAND.red,    backgroundColor: 'transparent', borderWidth: 2,   pointRadius: 4, tension: 0.2, spanGaps: true },
+        { label: 'Google Ads', data: r2Data.google, borderColor: BRAND.blue,   backgroundColor: 'transparent', borderWidth: 2,   pointRadius: 4, tension: 0.2 },
+        { label: 'Meta Ads',   data: r2Data.meta,   borderColor: BRAND.yellow, backgroundColor: 'transparent', borderWidth: 2.5, pointRadius: 5, tension: 0.2, spanGaps: true },
+        { label: 'Reklámháló', data: r2Data.reklam, borderColor: BRAND.purple, backgroundColor: 'transparent', borderWidth: 2,   pointRadius: 4, tension: 0.2, spanGaps: false },
+        { label: 'Rádió',      data: r2Data.radio,  borderColor: BRAND.orange, backgroundColor: 'transparent', borderWidth: 2,   pointRadius: 4, tension: 0.2, spanGaps: true }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: '#22201C', titleColor: '#fff', bodyColor: 'rgba(255,255,255,.7)',
+          mode: 'index', intersect: false,
+          callbacks: { label: ctx => ctx.raw !== null ? ' ' + ctx.dataset.label + ': ' + ctx.raw.toFixed(2) + '×' : '' } }
+      },
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y: { type: 'logarithmic', grid: { color: '#E8E7E3' }, border: { display: false },
+             ticks: { callback: v => v.toFixed(2) + '×' }, min: 0.1 }
+      }
+    }
+  });
+  _registerChart('chartRoasLine', chartRoasLine);
+</script>
+
+</body>
+</html>
